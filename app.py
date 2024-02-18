@@ -1,5 +1,5 @@
 from notebook_funk import show_notes, add_note, find_note
-
+import datetime
 
 def main():
     file_name = 'note_book.txt'
@@ -19,3 +19,6 @@ def main():
             flag_exit = True
             
 main()
+# d = datetime.datetime.today()
+# d= d.strftime("%Y-%m-%d %H:%M:%S")
+# print(d)

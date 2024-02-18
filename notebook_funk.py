@@ -1,4 +1,5 @@
 import os.path
+import datetime as dt
 
 def show_notes(file: str):
     if os.path.exists(file):
@@ -9,14 +10,16 @@ def show_notes(file: str):
                 num = list(data.keys())
                 data = list(data.values())
             
-                print(f'Название: {data[0][0]}, Заметка: {data[0][1]}')
+                print(f'ID: {num}, Название: {data[0][0]}, Заметка: {data[0][1]}, Сохранено: {data[0][2]}')
         print('*'*25)
     else: print('file not found')
     
 def add_note(file: str):
     n_note = input("Введите название заметки: ")
     note = input("Введите заметку: ")
-    new_dict = {count_lines(file): [n_note, note]}
+    d_note = dt.datetime.today()
+    d_note = d_note.strftime("%Y-%m-%d %H:%M:%S")
+    new_dict = {count_lines(file): [n_note, note, d_note]}
     with open(file,'a',encoding='UTF-8') as f:
         f.write(f'{new_dict}\n')
     print('*'*25)
@@ -69,14 +72,20 @@ def change_note(file: str, tmp_list: list):
     user_answer = input(">>>: ")
     if user_answer == '0':
         new_data[0][int(user_answer)] = input("Введите название: ")
+        new_data[0][2] = dt.datetime.today()
+        new_data[0][2] = new_data[0][2].strftime("%Y-%m-%d %H:%M:%S")
     elif user_answer == '1':
         new_data[0][int(user_answer)] = input("Введите заметку: ")
+        new_data[0][2] = dt.datetime.today()
+        new_data[0][2] = new_data[0][2].strftime("%Y-%m-%d %H:%M:%S")
     elif user_answer == '':
         # new_data[0][int(user_answer)] = input("Введите название: ")
         # new_data[0][int(user_answer)] = input("Введите заметку: ")
         new_data[0][0] = input("Введите название: ")
         new_data[0][1] = input("Введите заметку: ")
-    new_list = [new_data[0][0], new_data[0][1]]
+        new_data[0][2] = dt.datetime.today()
+        new_data[0][2] = new_data[0][2].strftime("%Y-%m-%d %H:%M:%S")
+    new_list = [new_data[0][0], new_data[0][1], new_data[0][2]]
     new_dict = {num_key[0]: new_list}
 
     with open(file, 'r',encoding='utf-8') as f:
@@ -125,6 +134,6 @@ def decorate_str(line: str):
         data = eval(line)
         num = list(data.keys())
         data = list(data.values())
-        print(f'Название: {data[0][0]}, Содержание: {data[0][1]}')
+        print(f'Название: {data[0][0]}, Содержание: {data[0][1]}, Сохранено: {data[0][2]}')
     except:
         print(line)
